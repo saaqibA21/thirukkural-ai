@@ -1,0 +1,242 @@
+:root {
+  --primary-bg: #f0f7ff;
+  --accent-blue: #2563eb;
+  --accent-light: #e0f2fe;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --glass: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', 'Noto Sans Tamil', sans-serif;
+  background-color: var(--primary-bg);
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(210,100%,98%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(220,100%,97%,1) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(240,100%,96%,1) 0, transparent 50%);
+  min-height: 100vh;
+  color: var(--text-main);
+  overflow-x: hidden;
+}
+
+/* Texture Pattern */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0c16.568 0 30 13.432 30 30s-13.432 30-30 30S0 46.568 0 30 13.432 0 30 0zm0 10C18.954 10 10 18.954 10 30s8.954 20 20 20 20-8.954 20-20S41.046 10 30 10z' fill='%232563eb' fill-rule='evenodd'/%3E%3C/svg%3E");
+  z-index: -1;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--glass-border);
+  background: var(--glass);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent-blue);
+  letter-spacing: -0.02em;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 600;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+nav a:hover, nav a.active {
+  color: var(--accent-blue);
+}
+
+main {
+  flex: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Chat Interface */
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 8rem;
+}
+
+.message {
+  max-width: 85%;
+  padding: 1rem 1.5rem;
+  border-radius: 1.5rem;
+  line-height: 1.6;
+  animation: slideUp 0.4s ease-out;
+}
+
+.user-message {
+  align-self: flex-end;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border-bottom-right-radius: 0.2rem;
+}
+
+.ai-message {
+  align-self: flex-start;
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-bottom-left-radius: 0.2rem;
+}
+
+.ai-message .source-cards {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.kural-card {
+  min-width: 280px;
+  background: white;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid var(--accent-light);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+}
+
+.kural-card h4 {
+  font-size: 0.8rem;
+  color: var(--accent-blue);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kural-card p {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+/* Search Area */
+.search-container {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 800px;
+  background: white;
+  border-radius: 2rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  border: 1px solid var(--glass-border);
+  z-index: 200;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  font-size: 1.1rem;
+  outline: none;
+  background: transparent;
+}
+
+.search-button {
+  background: var(--accent-blue);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.search-button:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* Suggestion Chips */
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.chip {
+  padding: 0.6rem 1.2rem;
+  background: white;
+  border: 1px solid var(--accent-light);
+  border-radius: 2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chip:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  background: var(--accent-light);
+}
+
+/* List Transitions */
+.kural-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

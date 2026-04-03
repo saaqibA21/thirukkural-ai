@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kural.ai Master 3.0 - Neural Wisdom Platform</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3665/3665923.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Noto+Sans+Tamil:wght@100..100&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(() => console.log('Neural Brain Cached Offline')).catch(() => {});
+            });
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #010409; color: #f8fafc; overflow-x: hidden; scroll-behavior: smooth; }
+        .glass-card { background: rgba(13, 17, 23, 0.7); border: 1px solid rgba(59, 130, 246, 0.15); backdrop-filter: blur(15px); border-radius: 2rem; box-shadow: 0 8px 32px rgba(0,0,0,0.4); transition: all 0.4s ease; }
+        .glass-card:hover { border-color: rgba(59, 130, 246, 0.4); transform: translateY(-3px); }
+        .neural-gradient { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+        .virtue-theme { border-left-color: #3b82f6 !important; border-left-width: 4px !important; }
+        .wealth-theme { border-left-color: #fbbf24 !important; border-left-width: 4px !important; }
+        .love-theme { border-left-color: #f472b6 !important; border-left-width: 4px !important; }
+        .tamil-text { font-family: 'Noto Sans Tamil', sans-serif; }
+        .glow-icon { filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5)); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-in { animation: fadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Loading Screen -->
+    <div id="loader" class="fixed inset-0 z-50 bg-[#010409] flex flex-col items-center justify-center transition-opacity duration-300">
+        <div class="relative w-32 h-32 mb-8">
+            <div class="absolute inset-0 border-4 border-blue-500/5 rounded-full"></div>
+            <div class="absolute inset-0 border-t-4 border-blue-500 rounded-full animate-spin"></div>
+            <div class="absolute inset-0 flex items-center justify-center scale-110">
+                <i data-lucide="brain-circuit" class="w-12 h-12 text-blue-500 glow-icon"></i>
+            </div>
+        </div>
+        <p id="loader-text" class="text-blue-500 font-black tracking-[0.2em] text-xs uppercase animate-pulse">Neural Indexing Active...</p>
+        <button id="retry-btn" onclick="location.reload()" class="hidden mt-8 px-6 py-2 bg-blue-600 rounded-full text-white font-bold text-xs uppercase tracking-widest hover:bg-blue-500 transition-all shadow-xl">Manual Restart</button>
+    </div>
+
+    <!-- Main Platform -->
+    <div id="app" class="hidden flex-1 flex flex-col transition-all duration-1000 opacity-0">
+        <!-- Header -->
+        <header class="sticky top-0 z-40 bg-[#010409]/80 backdrop-blur-2xl border-b border-white/5 px-8 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div class="p-2.5 neural-gradient rounded-2xl shadow-[0_0_25px_rgba(37,99,235,0.4)]">
+                    <i data-lucide="zap" class="w-5 h-5 text-white fill-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-black tracking-tight leading-none">Kural.ai <span class="text-[9px] text-blue-500 uppercase ml-2 tracking-widest">Master 2.0</span></h1>
+                    <p class="text-[8px] font-bold text-slate-500 tracking-[0.2em] uppercase mt-1">Saaqib Neural Engine</p>
+                </div>
+            </div>
+            <nav class="hidden sm:flex gap-10">
+                <button onclick="switchTab('ask')" id="nav-ask" class="text-blue-500 font-black tracking-widest text-[10px] uppercase transition-colors">Neural Talk</button>
+                <button onclick="switchTab('lib')" id="nav-lib" class="text-slate-500 font-black tracking-widest text-[10px] uppercase hover:text-blue-400 transition-colors">Wisdom Map</button>
+            </nav>
+            <div class="flex items-center gap-3 bg-blue-500/5 px-5 py-2.5 rounded-full border border-blue-500/10 hover:bg-blue-500/10 transition-all">
+                <span id="status-pulse" class="w-2 h-2 bg-green-500 rounded-full animate-ping shadow-[0_0_12px_#10b981]"></span>
+                <span class="text-[10px] font-black text-blue-400 tracking-wider uppercase">Offline Brain Active</span>
+            </div>
+        </header>
+
+        <!-- Dynamic Content -->
+        <main class="flex-1 max-w-6xl mx-auto w-full p-8 pb-48">
+            
+            <div id="dashboard" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 animate-in">
+                <div class="col-span-2 glass-card p-10 relative overflow-hidden group">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all"></div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <i data-lucide="calendar" class="w-4 h-4 text-blue-500"></i>
+                        <h3 class="text-[10px] font-black text-slate-400 tracking-[0.3em] uppercase">Verse of the Moment</h3>
+                    </div>
+                    <div id="daily-kural">
+                        <h2 class="tamil-text text-3xl font-black text-white mb-6 leading-tight font-serif italic">Loading Wisdom...</h2>
+                    </div>
+                </div>
+                <div class="glass-card p-10 flex flex-col justify-center items-center text-center gap-6">
+                    <h4 class="text-[10px] font-black text-slate-500 tracking-widest uppercase">Neural Index Size</h4>
+                    <div class="text-5xl font-black text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]">1,330</div>
+                    <p class="text-[8px] font-bold text-slate-600 uppercase tracking-widest">Complete Master Archive Loaded</p>
+                    <div class="w-full h-px bg-white/5 my-2"></div>
+                    <div class="flex gap-4">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-green-500 opacity-40"></i>
+                        <i data-lucide="cpu" class="w-5 h-5 text-blue-500 opacity-40"></i>
+                        <i data-lucide="zap" class="w-5 h-5 text-amber-500 opacity-40"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI VIEW -->
+            <div id="tab-ask" class="space-y-12">
+                <div id="chat" class="space-y-12"></div>
+            </div>
+
+            <!-- LIBRARY VIEW -->
+            <div id="tab-lib" class="hidden space-y-12">
+                <div class="flex items-center gap-6 glass-card px-10 py-6">
+                    <i data-lucide="search" class="w-6 h-6 text-blue-500"></i>
+                    <input type="text" id="lib-input" oninput="runFilter()" placeholder="Search vectors of infinity..." class="bg-transparent border-none outline-none text-xl font-bold w-full placeholder:text-slate-700">
+                </div>
+                <div id="grid" class="grid md:grid-cols-2 gap-8"></div>
+            </div>
+        </main>
+
+        <!-- Floating Input -->
+        <div id="input-container" class="fixed bottom-12 left-1/2 -translate-x-1/2 w-[94%] max-w-3xl glass-card p-4 shadow-2xl border-white/5">
+            <div class="flex gap-6 items-center">
+                <input type="text" id="ask-input" placeholder="Initiate wisdom query..." onkeypress="if(event.key==='Enter') runAsk()" class="flex-1 bg-transparent border-none outline-none px-4 text-xl font-bold placeholder:text-slate-700">
+                <button onclick="runAsk()" class="w-16 h-16 neural-gradient rounded-[1.5rem] flex items-center justify-center hover:scale-105 transition-all shadow-xl">
+                    <i data-lucide="arrow-right" class="w-7 h-7 text-white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let DATA = [];
+        const UI = {
+            loader: document.getElementById('loader'),
+            app: document.getElementById('app'),
+            chat: document.getElementById('chat'),
+            grid: document.getElementById('grid'),
+            input: document.getElementById('ask-input'),
+            libInput: document.getElementById('lib-input'),
+            loaderText: document.getElementById('loader-text'),
+            retryBtn: document.getElementById('retry-btn'),
+            dailyKural: document.getElementById('daily-kural')
+        };
+
+        const MASTER_ENGINE = {
+            stopWords: new Set(['how', 'what', 'is', 'the', 'and', 'are', 'you', 'for', 'about', 'can', 'not', 'being', 'this', 'get', 'avoid', 'meaning', 'list', 'starting', 'with', 'kural', 'verse']),
+            intents: {
+                'anger': { range: [301, 310], weight: 70 },
+                'education': { range: [391, 400], weight: 70 },
+                'love': { range: [1091, 1330], weight: 50 },
+                'gratitude': { range: [101, 110], weight: 70 }
+            },
+            search: (query) => {
+                const qRaw = query.normalize('NFC');
+                
+                // 1. Ultra-Extraction: Pull ONLY Tamil characters if they exist
+                const tamilQuery = (qRaw.match(/[\u0B80-\u0BFF]+/g) || []).join('').trim();
+                const isTamilSearch = tamilQuery.length > 0;
+                
+                // 2. Command Strip for English queries
+                let qClean = qRaw.toLowerCase().replace(/list the kurals starting with|find kurals starting with|show kurals starting with|starting with|list the kurals|show me|find/gi, '').trim();
+
+                const words = qClean.split(/\s+/).filter(w => w.length > 2 && !MASTER_ENGINE.stopWords.has(w));
+                
+                let results = DATA.map((k, i) => {
+                    let score = 0;
+                    const l1 = k.Line1.normalize('NFC').toLowerCase().trim();
+                    const l2 = k.Line2.normalize('NFC').toLowerCase().trim();
+                    const content = `${l1} ${l2} ${k.explanation} ${k.Translation} ${k.mv || ''} ${k.sp || ''} ${k.mk || ''}`.normalize('NFC').toLowerCase();
+                    
+                    if (isTamilSearch) {
+                        // Priority 1: Does the Tamil query match the START of line 1?
+                        if (l1.includes(tamilQuery)) {
+                            score += 50000;
+                            if (l1.startsWith(tamilQuery)) score += 50000; // Extra Anchor boost
+                        }
+                        if (l2.includes(tamilQuery)) score += 5000;
+                    } else {
+                        // English Conceptual Search
+                        for (const [intent, meta] of Object.entries(MASTER_ENGINE.intents)) {
+                            if (qClean.includes(intent)) if (k.Number >= meta.range[0] && k.Number <= meta.range[1]) score += meta.weight;
+                        }
+                        words.forEach(w => {
+                            if (content.includes(w)) score += 15;
+                        });
+                    }
+
+                    // Priority 2: Precise ID Match
+                    if (qRaw.match(new RegExp('\\b' + k.Number + '\\b'))) score += 1000000;
+                    
+                    return { i, score };
+                });
+
+                const max = Math.max(...results.map(r => r.score));
+                if (max <= 0) return [];
+
+                return results
+                    .filter(r => r.score >= (max > 1000 ? max * 0.1 : 1)) 
+                    .sort((a,b) => b.score - a.score)
+                    .slice(0, 5)
+                    .map(r => ({ ...r, accuracy: Math.min(100, Math.floor((r.score/max)*100)) }));
+            }
+        };
+
+        async function init() {
+            try {
+                const res = await fetch('thirukkural.json?v=' + Date.now());
+                const json = await res.json();
+                DATA = json.kural;
+                window.lucide.createIcons();
+                setTimeout(() => {
+                    UI.loader.classList.add('opacity-0');
+                    setTimeout(() => {
+                        UI.loader.style.display = 'none';
+                        UI.app.classList.remove('hidden');
+                        setTimeout(() => UI.app.style.opacity = '1', 50);
+                        renderDaily();
+                        renderGrid("");
+                    }, 500);
+                }, 1000);
+            } catch (err) {
+                UI.loaderText.innerText = "CRITICAL: Database Offline";
+                UI.retryBtn.classList.remove('hidden');
+            }
+        }
+
+        function renderDaily() {
+            const rand = DATA[Math.floor(Math.random() * DATA.length)];
+            UI.dailyKural.innerHTML = `
+                <div class="flex justify-between items-start mb-6">
+                    <span class="text-[9px] font-black text-blue-500 bg-blue-500/10 px-3 py-1 rounded-md tracking-widest uppercase">KURAL #${rand.Number}</span>
+                    <button onclick="speak('${rand.Translation.replace(/'/g, "\\'")}')" class="text-blue-400 hover:text-white transition-all"><i data-lucide="volume-2" class="w-5 h-5"></i></button>
+                </div>
+                <h2 class="tamil-text text-3xl font-black text-white mb-6 leading-relaxed">${rand.Line1}<br/>${rand.Line2}</h2>
+                <p class="text-slate-400 text-lg font-medium italic opacity-80">"${rand.Translation}"</p>
+            `;
+            window.lucide.createIcons();
+        }
+
+        window.runAsk = () => {
+            const q = UI.input.value.trim();
+            if(!q) return;
+            UI.input.value = "";
+            renderMsg('user', q);
+            const load = document.createElement('div');
+            load.className = 'text-blue-500 font-black p-8 text-[11px] italic animate-pulse tracking-[0.3em] uppercase flex items-center gap-4';
+            load.innerHTML = `<div class="w-2 h-2 bg-blue-500 rounded-full animate-ping"></div> ANALYZING SIGNAL INTENT...`;
+            UI.chat.appendChild(load);
+            setTimeout(() => {
+                load.remove();
+                const qLower = q.toLowerCase().trim();
+
+                // 1. Greeting Intelligence
+                const greetings = ['hi', 'hello', 'hey', 'vanakkam', 'good morning', 'good evening', 'hola'];
+                if (greetings.some(g => qLower === g || qLower.startsWith(g + ' '))) {
+                    renderMsg('ai', `வணக்கம்! I am <strong>Kural.ai</strong>, your Neural Wisdom Assistant. I am ready to guide you through the 1,330 Kurals. <br/><br/>How can I inspire you today? You can ask about 'friendship', 'education', 'purpose', or even enter a Kural number.`);
+                    return;
+                }
+
+                // 2. Identity Recognition
+                if (qLower.includes('who are you') || qLower.includes('your name') || qLower.includes('who made you')) {
+                    renderMsg('ai', `I am <strong>Kural.ai</strong>, the <strong>Saaqib Neural Engine</strong>. <br/><br/>I am a high-performance, locally-hosted AI designed to serve as the ultimate guardian of the 1,330 Thirukkural verses. Built for total privacy and zero latency, I provide deep, scholarly analysis of ancient Tamil wisdom without ever leaving your machine.`);
+                    return;
+                }
+                const hits = MASTER_ENGINE.search(q);
+                if(hits.length === 0) {
+                    renderMsg('ai', "I couldn't find a direct verse in my neural map. Try asking about 'virtue', 'anger', or 'love'.");
+                } else {
+                    const top = DATA[hits[0].i];
+                    const recs = hits.slice(1, 3).map(h => DATA[h.i]); // Higher Intelligence: Recommendations
+                    
+                    // Thematic Analysis
+                    let theme = top.Number < 381 ? 'Virtue (அறம்)' : top.Number < 1081 ? 'Wealth (பொருள்)' : 'Love (இன்பம்)';
+                    
+                    const answer = `Based on my <strong>Neural Thematic Radar</strong>, your query aligns deeply with <strong>${theme}</strong>. <br/><br/>The verse "${top.Line1} ${top.Line2}" (Verse ${top.Number}) refers to ${top.explanation.toLowerCase().replace('meaning:', '').trim()}. <br/><br/>It means: ${top.Translation}. <br/><br/><strong>Deep Insight:</strong> This verse is a primary ${theme.split(' ')[0]} principle, holding a <strong>${hits[0].accuracy}%</strong> relevance score.`;
+                    
+                    renderMsg('ai', answer, [top, ...recs]); // Presenting Top + Recommendations
+                }
+            }, 800);
+        };
+
+        window.speak = (text) => {
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.rate = 0.95;
+            window.speechSynthesis.speak(msg);
+        };
+
+        function renderMsg(role, text, sources = []) {
+            const div = document.createElement('div');
+            div.className = `flex flex-col ${role === 'user' ? 'items-end' : 'items-start'} animate-in`;
+            let html = `
+                <div class="${role === 'user' ? 'bg-blue-600 text-white rounded-[2.5rem] rounded-br-none' : 'glass-card text-slate-200 rounded-[2.5rem] rounded-bl-none'} p-10 md:p-14 max-w-[95%] shadow-2xl border-white/5">
+                    <div class="flex items-center justify-between mb-8 opacity-40">
+                        <div class="flex items-center gap-2 text-[10px] font-black tracking-widest uppercase">
+                            <i data-lucide="${role === 'user' ? 'user' : 'cpu'}" class="w-4 h-4"></i> ${role === 'user' ? 'YOUR SIGNAL' : 'AI MASTER SYNTHESIS'}
+                        </div>
+                        ${role === 'ai' ? `<button onclick="speak('${text.replace(/'/g, "\\'").replace(/<br\s*\/?>/gi, ' ')}')" class="hover:text-blue-400 transition-all"><i data-lucide="volume-2" class="w-5 h-5"></i></button>` : ''}
+                    </div>
+                    <p class="text-xl md:text-2xl leading-relaxed font-semibold">${text}</p>
+                </div>
+            `;
+            if(sources.length > 0) {
+                html += `<div class="grid grid-cols-1 gap-8 mt-12 w-full">` + sources.map(s => {
+                    let catClass = s.Number < 381 ? 'virtue-theme' : s.Number < 1081 ? 'wealth-theme' : 'love-theme';
+                    return `
+                        <div class="glass-card p-12 border-white/5 ${catClass}">
+                            <div class="flex justify-between items-start mb-10">
+                                <div class="flex gap-3">
+                                    <span class="text-[10px] font-black text-white bg-blue-600 px-4 py-1.5 rounded-lg tracking-widest uppercase">Verse #${s.Number}</span>
+                                    <span class="text-[10px] font-black text-slate-400 bg-white/5 px-4 py-1.5 rounded-lg tracking-widest uppercase">Accuracy ${s.accuracy}%</span>
+                                </div>
+                                <button onclick="toggleDeepDiv(${s.Number})" class="text-[9px] font-black text-blue-500 border border-blue-500/20 px-6 py-2 rounded-full hover:bg-blue-500 hover:text-white transition-all uppercase tracking-widest">Deep Insights +</button>
+                            </div>
+                            <p class="tamil-text text-3xl font-black text-white mb-10 leading-relaxed">${s.Line1}<br/>${s.Line2}</p>
+                            <div id="deep-${s.Number}" class="hidden mt-12 pt-12 border-t border-white/10 space-y-12 animate-in">
+                                <div class="grid md:grid-cols-3 gap-10">
+                                    <div class="space-y-4"><h5 class="text-[9px] font-black text-slate-600 uppercase tracking-widest">Mu. Varadharajan</h5><p class="tamil-text text-xs text-slate-400">${s.mv}</p></div>
+                                    <div class="space-y-4"><h5 class="text-[9px] font-black text-blue-500 uppercase tracking-widest">Solomon Pappaiya</h5><p class="tamil-text text-xs text-slate-300 font-bold">${s.sp}</p></div>
+                                    <div class="space-y-4"><h5 class="text-[9px] font-black text-slate-600 uppercase tracking-widest">Kalaignar MK</h5><p class="tamil-text text-xs text-slate-400">${s.mk}</p></div>
+                                </div>
+                                <div class="p-10 bg-blue-600/5 border border-blue-600/20 rounded-[2.5rem]">
+                                    <h5 class="text-[9px] font-black text-blue-500 uppercase tracking-widest mb-4">Word Transliteration</h5>
+                                    <p class="text-sm text-blue-100 italic font-medium">"${s.transliteration1 || ''} | ${s.transliteration2 || ''}"</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('') + `</div>`;
+            }
+            div.innerHTML = html;
+            UI.chat.appendChild(div);
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            window.lucide.createIcons();
+        }
+
+        window.toggleDeepDiv = (num) => {
+            const el = document.getElementById('deep-' + num);
+            el.classList.toggle('hidden');
+        };
+
+        window.switchTab = (tab) => {
+            document.getElementById('tab-ask').style.display = tab === 'ask' ? 'block' : 'none';
+            document.getElementById('tab-lib').style.display = tab === 'lib' ? 'block' : 'none';
+            document.getElementById('dashboard').style.display = tab === 'ask' ? 'grid' : 'none';
+            document.getElementById('input-container').style.display = tab === 'ask' ? 'block' : 'none';
+            document.getElementById('nav-ask').className = tab === 'ask' ? 'text-blue-500 font-black tracking-widest text-[10px] uppercase' : 'text-slate-500 font-black tracking-widest text-[10px] uppercase';
+            document.getElementById('nav-lib').className = tab === 'lib' ? 'text-blue-500 font-black tracking-widest text-[10px] uppercase' : 'text-slate-500 font-black tracking-widest text-[10px] uppercase';
+        };
+
+        function renderGrid(f) {
+            const filtered = DATA.filter(k => k.Number.toString().includes(f) || k.Line1.toLowerCase().includes(f.toLowerCase()) || k.explanation.toLowerCase().includes(f.toLowerCase())).slice(0, 40);
+            UI.grid.innerHTML = filtered.map(k => `
+                <div class="glass-card p-12">
+                    <div class="flex justify-between mb-8">
+                        <span class="text-[10px] font-black text-blue-500 bg-blue-500/10 px-4 py-1.5 rounded-lg tracking-widest uppercase">#${k.Number}</span>
+                    </div>
+                    <p class="tamil-text text-2xl font-black text-white mb-8 leading-relaxed">${k.Line1}<br/>${k.Line2}</p>
+                    <button onclick="handleQ('${k.Number}')" class="w-full py-4 rounded-2xl bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-blue-600 transition-all">Deep Analysis</button>
+                </div>
+            `).join('');
+        }
+
+        window.runFilter = () => renderGrid(UI.libInput.value);
+        init();
+    </script>
+</body>
+</html>
