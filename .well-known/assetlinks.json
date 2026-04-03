@@ -3,9 +3,9 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.saaqibA21.thirukkural_ai",
+      "package_name": "com.saaqiba21.thirukkural_ai",
       "sha256_cert_fingerprints": [
-        "00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
+        "18:EA:F2:74:A8:70:C3:6F:30:EB:71:BA:DC:B1:F1:00:40:19:36:76:CB:E7:8F:EA:96:76:A7:0E:BD:DE:4D:13"
       ]
     }
   }
